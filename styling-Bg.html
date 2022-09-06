@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+         body{
+            position: relative;
+            background-color: #000;
+         }
+         #box{
+            width:40%;
+            height:400px;
+            position: absolute;
+            left: 35%;
+            top: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+         }
+        #card {
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            width: 200px;
+            height: 300px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius:10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            perspective: 1000px;
+        }
+
+        #card button {
+            transition: all 0.5s ease;
+            width: 100px;
+            height: 40px;
+            background: black;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        }
+
+        #card p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+    <div id="card">
+        <button onclick="myfun()">GENERATE</button>
+        <p>Your Generated color code will be shown here.</p>
+    </div>
+    </div>
+
+    <script>
+        /*Hex  color Generator*/
+
+        const body = document.querySelector('body');
+        const value = document.querySelector('p');
+        const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F',];
+
+        value.innerHTML ='#000000';
+        function myfun() {
+            let hex_value = '#';
+            for (let i = 0; i < 6; i++) {
+                const index = Math.floor(Math.random() * hex.length);
+                hex_value = hex_value + hex[index];
+            }
+            value.innerHTML = hex_value;
+            body.style.background = hex_value;
+            body.style.transition = '1s'; 
+        }
+
+        //3D card code..
+
+        const box=document.getElementById('box');
+        const card=document.getElementById('card');
+        const button=document.querySelector('button');
+
+        box.addEventListener("mousemove",(e) => {
+            console.log(e.pageX,e.pageY);
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 15;
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 15;
+
+            card.style.transform = `rotateY(${yAxis}deg) rotateX(${xAxis}deg)`;
+        })
+
+        box.addEventListener("mouseenter",(e) =>{
+             card.style.transition = "none";
+             button.style.transform = "translateZ(100px)";
+             value.style.transform = "translateZ(100px)"
+        })
+
+        box.addEventListener("mouseleave",(e) => {
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            button.style.transform = "translateZ(0px)";
+            value.style.transform = "translateZ(0px)";
+        })
+    </script>
+</body>
+
+</html>
